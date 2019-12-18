@@ -1,0 +1,14 @@
+# .htaccess for pagebuilder framework
+# 
+
+RewriteEngine on
+
+RewriteCond %{REQUEST_URI} !^/$
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-l
+RewriteCond %{REQUEST_URI}  !(\.png|\.jpg|\.gif|\.jpeg|\.bmp|\.css|\.js)$
+#
+# forward everything to index.html with the requested page as parameter
+#
+RewriteRule ^(.+)$ index.php?url=$1 [QSA,L]

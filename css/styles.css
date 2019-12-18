@@ -1,0 +1,105 @@
+@import url('https://fonts.googleapis.com/css?family=Port+Lligat+Sans&display=swap');
+/* HSL
+$color1: hsla(28%, 83%, 7%, 1); Licorice
+$color2: hsla(12%, 77%, 14%, 1); Black Bean
+$color3: hsla(351%, 81%, 27%, 1); UP Maroon
+$color4: hsla(344%, 66%, 37%, 1); Big Dip O’ruby
+$color5: hsla(332%, 58%, 94%, 1); Isabelline
+
+RGB
+$color1: rgba(33, 17, 3, 1);
+$color2: rgba(61, 19, 8, 1);
+$color3: rgba(123, 13, 30, 1);
+$color4: rgba(159, 32, 66, 1);
+$color5: rgba(248, 229, 238, 1);
+*/
+
+* {
+	margin: 0;
+	padding: 0;
+}
+
+html {
+	background: rgba(248, 229, 238, 1);
+	font-family: 'Port Lligat Sans', sans-serif;
+	font-size: 14px;
+	color: rgba(33, 17, 3, 1);
+}
+
+main {
+	padding: 0 30px 0 30px;
+}
+
+a {
+	text-decoration: none;
+	color: black;
+}
+
+a:hover {
+	color: rgb(202, 223, 19);
+}
+
+nav {
+	background: rgba(123, 13, 30, 1);
+	height: 60px;
+	font-weight: bold;
+	font-size: 130%;
+
+}
+
+nav ul {
+	padding-top: 15px;
+}
+
+nav ul li, nav ul li a {
+	display: inline;
+	padding: 15px;
+	color: rgba(248, 229, 238, 1);
+}
+
+nav ul li a:hover {
+	color: rgb(202,223,19);
+}
+
+a.active {
+	font-size: 200%;
+}
+
+#aftermenudiv {
+	height: 20px;
+}
+
+button {
+	min-height: 30px;
+	min-width: 150px;
+	border-radius: 8px;
+}
+
+
+/* FORM */
+fieldset {
+	padding: 20px;
+	border-radius: 20px;
+}
+
+legend {
+	font-weight: bold;
+	font-size: 120%;
+}
+
+label {
+	display: block;
+	font-size: 110%;
+	margin: 10px 0 10px 0;
+}
+
+footer {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	height: 30px;
+	background: rgba(123, 13, 30, 1);
+	color: rgba(248, 229, 238, 1);
+	width: 100%;
+	text-align: center;
+}

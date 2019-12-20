@@ -14,7 +14,7 @@
     //$rootfolder = "/wilmesjeroen/versie2.0/";
     //$rootfolder = "/pagebuilder24/";
     //$rootfolder = "https://buurtzorg.eriksteens.nl/";
-    $rootfolder = "/buurtzorg24/buurtzorg24-1/";
+    $rootfolder = "/steenserik/DaniTimmermans121835/BuurtzorgNederland/";
 
     // url:  /PAGE/ACTION/PARAM
 

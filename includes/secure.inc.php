@@ -13,12 +13,12 @@
 	abstract class Secure {
 		public static function checkPage() {
 			switch(PAGE) {
-				case "home"			:
-				case "vacature"		: return false; break;
-				case "admin"		: return true; break;
+				case "home"				:	return false; break;
+				case "vacature"		: return true; break;
+				case "admin"			: return true; break;
 				case "gebruikers"	: return true; break;
 				case "geheim" 		: return true; break;
-				default				: return true;
+				default						: return true;
 			}
 		}
 	}

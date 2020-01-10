@@ -103,7 +103,7 @@
 								. "/update/" . $row["uuid"] 	// add ACTION and PARAM to the link
 								. ">$image</a></td>";			// link to delete icon
 					$table .= "</tr>";
-					
+
 				} // foreach
 			$table .= "</table>";
 			return $table;
@@ -129,16 +129,16 @@
 					<legend>Voeg een nieuwe gebruiker toe</legend>
 						<form action="$url" enctype="multipart/formdata" method="post">
 							<label>Inlognaam</label>
-							<input type="text" name="loginname" id="" value="foute naam" placeholder="Inlognaam" />
+							<input type="text" name="loginname" required id="" value="foute naam" placeholder="Inlognaam" />
 
 							<label>Wachtwoord</label>
-							<input type="text" name="password" id="" value="" placeholder="Wachtwoord" />
+							<input type="text" name="password" required id="" value="" placeholder="Wachtwoord" />
 
 							<label>Rol</label>
-							<input type="text" name="role" id="" value="" placeholder="Rol" />
+							<input type="text" name="role" required id="" value="" placeholder="Rol" />
 
 							<label>E-mail</label>
-							<input type="text" name="email" id="" value="" placeholder="E-mailadres" />
+							<input type="text" name="email" required id="" value="" placeholder="E-mailadres" />
 
 							<label></label>
 							<!-- add hidden field for processing -->
@@ -153,9 +153,9 @@ HTML;
 		private function processFormAddUser() {
 			$hash 		= $this->createHash(); // in code
 			$uuid 		= $this->createUuid(); // in code
-			$hashDate 	= $this->createHashDate(); // in core
+			$hashDate = $this->createHashDate(); // in core
 			// get transfered datafields from form "$this->addForm()"
-	
+
 			$username 	= $_POST['loginname'];
 			$password	= password_hash($_POST['password'], PASSWORD_DEFAULT);
 			$role		= $_POST['role'];
@@ -180,7 +180,7 @@ HTML;
 		// c[R]ud action
 		private function read() {
 			// get and present information from the user with uuid in PARAM
-			$button = $this->addButton("/../..", "Terug");	
+			$button = $this->addButton("/../..", "Terug");
 			// first show button, then table
 
 			return $button ."<br>Dit zijn de details van " . PARAM;
@@ -189,7 +189,7 @@ HTML;
 		//cr[U]d action
 		private function update() {
 			// present form with all user information editable and process
-			$button = $this->addButton("/../..", "Terug");	
+			$button = $this->addButton("/../..", "Terug");
 			// first show button, then table
 
 			return $button ."<br>Deze gebruiker moet worden aangepast " . PARAM;
@@ -198,7 +198,7 @@ HTML;
 		//cru[D] action
 		private function delete() {
 			// remove selected record based om uuid in PARAM
-			$sql='DELETE FROM tb_users WHERE uuid="' . PARAM. '"';		
+			$sql='DELETE FROM tb_users WHERE uuid="' . PARAM. '"';
             $result = Database::getData($sql);
 			$button = $this->addButton("/../../..", "Terug");	// add "/add" button. This is ACTION button
 			// first show button, then table

@@ -21,19 +21,19 @@
     define("ROOT"			    , "");
 
     //Menuitems paths
-    define("HOME_PATH"          , $rootfolder . ROOT . "home");
-    define("VACATURE_PATH"      , $rootfolder . ROOT . "vacature");
-    define("GEBRUIKERS_PATH"    , $rootfolder . ROOT . "gebruikers");
-    define("GEHEIM_PATH"        , $rootfolder . ROOT . "geheim");
-    define("LOGOUT_PATH"        , $rootfolder . ROOT . "logout");
-    define("ADMIN_PATH"         , $rootfolder . ROOT . "admin");
+    define("HOME_PATH"          			, $rootfolder . ROOT . "home");
+    define("VACATURE_PATH"      			, $rootfolder . ROOT . "vacature");
+    define("GEBRUIKERS_PATH"    			, $rootfolder . ROOT . "gebruikers");
+    define("GEHEIM_PATH"        			, $rootfolder . ROOT . "geheim");
+    define("ADMIN_PATH"         			, $rootfolder . ROOT . "admin");
+		define("LOGOUT_PATH"        			, $rootfolder . ROOT . "logout");
 
     //Rootfolder paths
-	define("CSS_PATH"		    , ROOT 			. "css/");
+	define("CSS_PATH"		    	, ROOT 			. "css/");
 	define("IMAGES_PATH"	    , ROOT 			. "images/");
 	define("ICONS_PATH"		    , IMAGES_PATH 	. "icons/");
 	define("USERS_PATH"		    , IMAGES_PATH 	. "users/");
-	define("INCLUDES_PATH"	    , ROOT 			. "includes/");
-	define("JS_PATH"		    , ROOT 			. "js/");
-	define("PAGES_PATH"			, ROOT			. "pages/");
+	define("INCLUDES_PATH"	  , ROOT 			. "includes/");
+	define("JS_PATH"		    	, ROOT 			. "js/");
+	define("PAGES_PATH"				, ROOT			. "pages/");
 	define("INTERFACES_PATH"	, ROOT			. "interfaces/");

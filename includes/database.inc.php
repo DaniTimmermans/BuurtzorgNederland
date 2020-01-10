@@ -47,7 +47,7 @@
 			} else {
 				$stmt->execute();			// execute when no parameters
 			}
-			
+
 			$result = $stmt->fetchAll(); // get result
 
 			return $result; // dabase query result

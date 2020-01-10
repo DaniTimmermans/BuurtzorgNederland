@@ -6,7 +6,7 @@
 	 * @implements iPage
 	 */
 /*
-	Contains details of page information
+	Contains details of page information test test test
 	returns the built html
 	Class Name convention: <pagename>Page
 	Must contain iPage interface implementation

@@ -6,7 +6,7 @@
 	 * @implements iPage
 	 */
 /*
-	Contains details of page information test test test
+	Contains details of page information
 	returns the built html
 	Class Name convention: <pagename>Page
 	Must contain iPage interface implementation
@@ -129,21 +129,21 @@
 					<legend>Voeg een nieuwe gebruiker toe</legend>
 						<form action="$url" enctype="multipart/formdata" method="post">
 							<label>Inlognaam</label>
-							<input type="text" name="loginname" required id="" value="foute naam" placeholder="Inlognaam" />
+							<input type="text" name="loginname" required id="" value="" placeholder="Inlognaam" />
 
 							<label>Wachtwoord</label>
 							<input type="text" name="password" required id="" value="" placeholder="Wachtwoord" />
 
 							<label>Rol</label>
-							<input type="text" name="role" required id="" value="" placeholder="Rol" />
+							<input type="text" name="role" id="" required value="" placeholder="Rol" />
 
 							<label>E-mail</label>
-							<input type="text" name="email" required id="" value="" placeholder="E-mailadres" />
+							<input type="text" name="email" id="" required value="" placeholder="E-mailadres" />
 
 							<label></label>
 							<!-- add hidden field for processing -->
 							<input type="hidden" name="frmAddUser" value="frmAddUser" />
-							<input type="submit" name="submit" value="Voeg toe" />
+							<input type="submit" name="submit" value="Gebruiker toevoegen" />
 						</form>
 				</fieldset>
 HTML;
@@ -153,7 +153,7 @@ HTML;
 		private function processFormAddUser() {
 			$hash 		= $this->createHash(); // in code
 			$uuid 		= $this->createUuid(); // in code
-			$hashDate = $this->createHashDate(); // in core
+			$hashDate 	= $this->createHashDate(); // in core
 			// get transfered datafields from form "$this->addForm()"
 
 			$username 	= $_POST['loginname'];
@@ -183,16 +183,16 @@ HTML;
 			$button = $this->addButton("/../..", "Terug");
 			// first show button, then table
 
-			return $button ."<br>Dit zijn de details van " . PARAM;
+			return $button ."<br>Dit zijn de details van vacature " . PARAM;
 		} // function details
 
 		//cr[U]d action
 		private function update() {
 			// present form with all user information editable and process
-			$button = $this->addButton("/../..", "Terug");
+			$button = $this->addButton("/../", "Terug");
 			// first show button, then table
 
-			return $button ."<br>Deze gebruiker moet worden aangepast " . PARAM;
+			return $button ."<br>Momenteel wordt " . PARAM . " aangepast";
 		}
 
 		//cru[D] action
@@ -203,7 +203,7 @@ HTML;
 			$button = $this->addButton("/../../..", "Terug");	// add "/add" button. This is ACTION button
 			// first show button, then table
 
-			return $button ."<br>Deze gebruiker is verwijderd " . PARAM;
+			return $button ."<br>Vacature " . PARAM . " is verwijdert";
 		}
 	}// class gebruikerPage
 ?>

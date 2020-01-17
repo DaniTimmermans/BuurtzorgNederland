@@ -12,7 +12,7 @@
 */
 class AdminPage {
 		public function getHtml() {
-			$html = "Dit is de geheime adminpaginatesttest";
+			$html = "Dit is de geheime adminpagina";
 			return $html;
 		}
 	}

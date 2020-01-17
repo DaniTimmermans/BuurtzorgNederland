@@ -14,19 +14,21 @@
     //$rootfolder = "/wilmesjeroen/versie2.0/";
     //$rootfolder = "/pagebuilder24/";
     //$rootfolder = "https://buurtzorg.eriksteens.nl/";
-    $rootfolder = "/steenserik/DaniTimmermans121835/BuurtzorgNederland/";
-
+    $rootfolder = "/steenserik/121835/BuurtzorgNederland/";
+		// gemaakt door Dani Timmermans
     // url:  /PAGE/ACTION/PARAM
 
     define("ROOT"			    , "");
 
     //Menuitems paths
-    define("HOME_PATH"          			, $rootfolder . ROOT . "home");
-    define("VACATURE_PATH"      			, $rootfolder . ROOT . "vacature");
-    define("GEBRUIKERS_PATH"    			, $rootfolder . ROOT . "gebruikers");
-    define("GEHEIM_PATH"        			, $rootfolder . ROOT . "geheim");
-    define("ADMIN_PATH"         			, $rootfolder . ROOT . "admin");
-		define("LOGOUT_PATH"        			, $rootfolder . ROOT . "logout");
+    define("HOME_PATH"          							, $rootfolder . ROOT . "home");
+    define("VACATURE_PATH"      							, $rootfolder . ROOT . "vacature");
+    define("GEBRUIKERS_PATH"    							, $rootfolder . ROOT . "gebruikers");
+    define("GEHEIM_PATH"        							, $rootfolder . ROOT . "geheim");
+    define("LOGOUT_PATH"        							, $rootfolder . ROOT . "logout");
+    define("ADMIN_PATH"         							, $rootfolder . ROOT . "admin");
+		define("SOLLICITANT_PATH"         				, $rootfolder . ROOT . "sollicitant");
+
 
     //Rootfolder paths
 	define("CSS_PATH"		    	, ROOT 			. "css/");
@@ -37,3 +39,7 @@
 	define("JS_PATH"		    	, ROOT 			. "js/");
 	define("PAGES_PATH"				, ROOT			. "pages/");
 	define("INTERFACES_PATH"	, ROOT			. "interfaces/");
+	define("ROLE_WTV" 				, 3);
+	define("ROLE_LID" 				, 2);
+	define("ROLE_PZ" 					, 1);
+	define("ROLE_ADMIN" 			, 4);

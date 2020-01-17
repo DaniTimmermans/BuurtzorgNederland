@@ -21,11 +21,15 @@ class VacaturePage extends Core implements iPage{
 				case "update"	: return $this->update();break;
 				case "delete"	: return $this->delete();
 			}
-		} else { // no ACTION so normal page
+		} elseif($_SESSION['user']['role'] == ROLE_LID) { // no ACTION so normal page
 			$table 	= $this->getData();		// get users from database in tableform
 			$button = $this->addButton("/create", "Toevoegen");	// add "/add" button. This is ACTION button
 			// first show button, then table
-			$html = $button . "<br />" . $table;
+			$html = "<h1> Welkom " . $_SESSION['user']['username'] . " </h1>" . "<br/>" . $button . "<br/>" . $table;
+			return $html;
+		} else {
+			$table 	= $this->getData();		// get users from database in tableform
+			$html = "<h1> Welkom " . $_SESSION['user']['username'] . " </h1>" . "<br/>" . $table;
 			return $html;
 		}
 	}
@@ -60,6 +64,7 @@ class VacaturePage extends Core implements iPage{
 	} // end function getData()
 
 	private function createTable($p_aDbResult){ // create html table from dbase result
+		if ($_SESSION['user']['role'] == ROLE_WTV) {
 		$image = "<img src='".ICONS_PATH."noun_information user_24px.png' />";
 		$table = "<table border='1'>";
 			$table .= "	<th>Vacature id</th>
@@ -97,6 +102,33 @@ class VacaturePage extends Core implements iPage{
 			} // foreach
 		$table .= "</table>";
 		return $table;
+	}else {
+		$image = "<img src='".ICONS_PATH."noun_information user_24px.png' />";
+		$table = "<table border='1'>";
+			$table .= "	<th>Vacature id</th>
+						<th>Vacature titel</th>
+						<th>Vacature tekst</th>
+						<th>Wijkteamverantwoordige id</th>
+						<th>Bekijk</th>";
+			// now process every row in the $dbResult array and convert into table
+			foreach ($p_aDbResult as $row){
+				$table .= "<tr>";
+					foreach ($row as $col) {
+						$table .= "<td>" . $col . "</td>";
+					}
+										// calculate url and trim all parameters [0..9]
+										$url = rtrim($_SERVER['REQUEST_URI'],"/[0..9]");
+					// create new link with parameter (== edit user link!)
+					$table 	.= "<td><a href="
+							. $url 							// current menu
+							. "/read/" . $row["vac_id"] 	// add ACTION and PARAM to the link
+							. ">$image</a></td>";			// link to edit icon
+				$table .= "</tr>";
+
+			} // foreach
+		$table .= "</table>";
+		return $table;
+	}
 	} //function
 
 	// [C]rud action
@@ -116,7 +148,7 @@ class VacaturePage extends Core implements iPage{
 		// heredoc statement. Everything between 2 HTML labels is put into $html
 		$html = <<<HTML
 			<fieldset>
-				<legend>Voeg een nieuwe gebruiker toe</legend>
+				<legend>Voeg een nieuwe vacature toe</legend>
 					<form action="$url" enctype="multipart/formdata" method="post">
 
 						<label>Vacature titel</label>
@@ -166,7 +198,7 @@ HTML;
 	// c[R]ud action
 	private function read() {
 		// get and present information from the user with uuid in PARAM
-		$button = $this->addButton("/../../", "Terug");
+		$button = $this->addButton("/../../../", "Terug");
 		// first show button, then table
 
 		return $button ."<br>Dit zijn de details van " . PARAM;
@@ -175,7 +207,7 @@ HTML;
 	//cr[U]d action
 	private function update() {
 		// present form with all user information editable and process
-		$button = $this->addButton("/../../", "Terug");
+		$button = $this->addButton("/../../../", "Terug");
 		// first show button, then table
 
 		return $button ."<br>" .  "Vacature " . PARAM . " wordt momenteel aangepast";
@@ -186,7 +218,7 @@ HTML;
 		// remove selected record based om uuid in PARAM
 		$sql='DELETE FROM tb_vacature WHERE vac_id="' . PARAM. '"';
 					$result = Database::getData($sql);
-		$button = $this->addButton("/../../", "Terug");	// add "/add" button. This is ACTION button
+		$button = $this->addButton("/../../../", "Terug");	// add "/add" button. This is ACTION button
 		// first show button, then table
 
 		return $button ."<br>Vacature " . PARAM . " is verwijderd";

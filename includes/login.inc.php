@@ -13,7 +13,7 @@
 		public static function getLoginForm() {
 			$form = "<h3>". PAGE ."</h3><br>";
 			$form .= "<form action='" . $_SERVER['REQUEST_URI'] . "' enctype='multipart/formdata' method='post'>";
-				$form .= "<input type='text' name='email' value='' />";
+				$form .= "<input type='text' name='email' value='wie ben je' />";
 				$form .= "<input type='password' name='password' value='' />";
 				// add hidden form Login for further processing
 				$form .= "<input type='hidden' name='frmLogin' value='frmLogin' />";

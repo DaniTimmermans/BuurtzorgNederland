@@ -20,12 +20,16 @@ class VacaturePage extends Core implements iPage{
 				case "read"		: return $this->read(); break;
 				case "update"	: return $this->update();break;
 				case "delete"	: return $this->delete();
+
+//uitnodiging knop voor goedgekeurde sollicitant.
+				case "updateSoll"	: return $this->updateSoll();break;
 			}
-		} elseif($_SESSION['user']['role'] == ROLE_LID) { // no ACTION so normal page
+		} elseif($_SESSION['user']['role'] == ROLE_WTV) { // no ACTION so normal page
 			$table 	= $this->getData();		// get users from database in tableform
+			$table2 = $this->getDataSoll();
 			$button = $this->addButton("/create", "Toevoegen");	// add "/add" button. This is ACTION button
 			// first show button, then table
-			$html = "<h1> Welkom " . $_SESSION['user']['username'] . " </h1>" . "<br/>" . $button . "<br/>" . $table;
+			$html = "<h1> Welkom " . $_SESSION['user']['username'] . " </h1>" . "<br/>" . "<br/>" . "<h1>Vacatures</h1>" .  $button . "<br/>" . $table . "<br/>" . "<h1> Goedgekeurde Sollicitanten </h1>" . $table2;
 			return $html;
 		} else {
 			$table 	= $this->getData();		// get users from database in tableform
@@ -49,17 +53,6 @@ class VacaturePage extends Core implements iPage{
 		$sql='SELECT * FROM tb_vacature ORDER BY CAST(vac_id AS int)';
 					$result = $this->createTable(Database::getData($sql));
 
-		//TODO: generate JSON output like this for webservices in future
-		/*
-			$data = Database::getData($sql);
-			$json = Database::jsonParse($data);
-			$array = Database::jsonParse($json);
-
-			echo "<br />result: ";  print_r(Database::getData($sql));
-						echo "<br /><br />json :" . $json;
-						echo "<br /><br />array :"; print_r($array);
-		*/
-
 		return $result;
 	} // end function getData()
 
@@ -68,12 +61,12 @@ class VacaturePage extends Core implements iPage{
 		$image = "<img src='".ICONS_PATH."noun_information user_24px.png' />";
 		$table = "<table border='1'>";
 			$table .= "	<th>Vacature id</th>
-						<th>Vacature titel</th>
-						<th>Vacature tekst</th>
-						<th>Wijkteamverantwoordige id</th>
-						<th>Bekijk</th>
-						<th>Verwijder</th>
-						<th>Aanpassen</th>";
+									<th>Vacature titel</th>
+									<th>Vacature tekst</th>
+									<th>Wijkteamverantwoordige id</th>
+									<th>Bekijk</th>
+									<th>Verwijder</th>
+									<th>Aanpassen</th>";
 			// now process every row in the $dbResult array and convert into table
 			foreach ($p_aDbResult as $row){
 				$table .= "<tr>";
@@ -131,8 +124,47 @@ class VacaturePage extends Core implements iPage{
 	}
 	} //function
 
+	private function getDataSoll(){
+		// execute a query and return the result
+		$sql='SELECT naamid, naam, adres, gebdatum, mail, punten FROM tb_soll WHERE status = 4 ORDER BY punten DESC';
+					$result = $this->createTableSoll(Database::getData($sql));
+
+		return $result;
+	} // end function getData()
+
+// hier worden alle goedgekeurde sollicitanten weergegeven die door de teamleden zijn goedgekeurd.
+	private function createTableSoll($p_aDbResult){ // create html table from dbase result
+		$image = "<img src='".ICONS_PATH."noun_information user_24px.png' />";
+		$table2 = "<table border='1'>"; //$table2 laat de door de teamleden gekeurde sollicitanten zien.
+		$table2 .= "<th>Naam ID</th>
+						<th>Naam</th>
+						<th>Adres</th>
+						<th>Geboorte Datum</th>
+						<th>E-mail</th>
+						<th>Punten</th>
+						<th>Stuur uitnodiging</th>";
+			// now process every row in the $dbResult array and convert into table
+			foreach ($p_aDbResult as $row){
+				$table2 .= "<tr>";
+					foreach ($row as $col) {
+						$table2 .= "<td>" . $col . "</td>";
+					}
+					// calculate url and trim all parameters [0..9]
+										$url = rtrim($_SERVER['REQUEST_URI'],"/[0..9]");
+					// create new link with parameter (== edit user link!)
+					$table2 	.= "<td><a href="
+							. $url 							// current menu
+							. "/updateSoll/" . $row["naamid"] 	// add ACTION and PARAM to the link
+							. ">$image</a></td>";			// link to edit icon
+				$table2 .= "</tr>";
+
+			} // foreach
+		$table2 .= "</table>";
+		return $table2;
+	} //function
+
 	// [C]rud action
-	// based on sent form 'frmAddUser' fields
+	// based on sent form 'frmAddVac' fields
 	private function create() {
 		// use variabel field  from form for processing -->
 		if(isset($_POST['frmAddVac'])) { // in this case the form is returned
@@ -142,6 +174,9 @@ class VacaturePage extends Core implements iPage{
 			return $this->addForm();
 		} //else
 	}
+
+
+// Hier wordt het sollicitatie formulier aangeroepen.
 
 	private function addForm() { // processed in $this->processFormAddUser()
 		$url = rtrim($_SERVER['REQUEST_URI'],"/[0..9]"); 	// strip not required info
@@ -183,12 +218,6 @@ HTML;
 								('$vacatureId', '$vacatureTitel', '$vacatureTekst', '$wijkteamverantwoordigeId')";
 
 		Database::getData($sql);
-		/*
-			echo "<br />";
-			echo $hash . "<br />";
-			echo $uuid . "<br />";
-			echo $hashDate . "<br />";
-		*/
 
 		$button = $this->addButton("/../../", "Terug");
 
@@ -216,11 +245,21 @@ HTML;
 	//cru[D] action
 	private function delete() {
 		// remove selected record based om uuid in PARAM
-		$sql='DELETE FROM tb_vacature WHERE vac_id="' . PARAM. '"';
+		$sql='DELETE FROM tb_vacature WHERE vac_id="' . PARAM . '"';
 					$result = Database::getData($sql);
 		$button = $this->addButton("/../../../", "Terug");	// add "/add" button. This is ACTION button
 		// first show button, then table
 
 		return $button ."<br>Vacature " . PARAM . " is verwijderd";
+	}
+
+	private function updateSoll() {
+		// present form with all user information editable and process
+		$sql = 'UPDATE tb_soll SET status = 5 WHERE naamid = "' . PARAM .'"';
+		Database::getData($sql);
+		$button = $this->addButton("/../../../", "Terug");
+		// first show button, then table
+
+		return $button ."<br>" .  "Sollicitant:" . PARAM . "Uitnodiging is verstuurd.";
 	}
 }// class vacaturePage

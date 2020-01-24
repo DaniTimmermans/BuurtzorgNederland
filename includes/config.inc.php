@@ -14,7 +14,7 @@
     //$rootfolder = "/wilmesjeroen/versie2.0/";
     //$rootfolder = "/pagebuilder24/";
     //$rootfolder = "https://buurtzorg.eriksteens.nl/";
-    $rootfolder = "/steenserik/121835/BuurtzorgNederland/";
+    $rootfolder = "/BuurtzorgNederland4/";
 		// gemaakt door Dani Timmermans
     // url:  /PAGE/ACTION/PARAM
 
@@ -28,6 +28,7 @@
     define("LOGOUT_PATH"        							, $rootfolder . ROOT . "logout");
     define("ADMIN_PATH"         							, $rootfolder . ROOT . "admin");
 		define("SOLLICITANT_PATH"         				, $rootfolder . ROOT . "sollicitant");
+		define("TEAMLID_PATH"         						, $rootfolder . ROOT . "teamlid");
 
 
     //Rootfolder paths

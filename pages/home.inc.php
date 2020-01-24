@@ -25,6 +25,7 @@ class HomePage extends Core implements iPage {
 			// first show button, then table
 			$html = "<h1>Beschikbare vacatures</h1>" . "<br>" . $table;
 			return $html;
+
 		}
 	}
 
@@ -56,6 +57,8 @@ class HomePage extends Core implements iPage {
 
 		return $result;
 	} // end function getData()
+
+
 
 	private function createTable($p_aDbResult){ // create html table from dbase result
 		$image = "<img src='".ICONS_PATH."noun_information user_24px.png' />";
@@ -90,8 +93,6 @@ class HomePage extends Core implements iPage {
 		return $table;
 	} //function
 
-	// [C]rud action
-	// based on sent form 'frmAddUser' fields
 	private function create() {
 		// use variabel field  from form for processing -->
 		if(isset($_POST['frmAddSoll'])) { // in this case the form is returned
@@ -120,7 +121,9 @@ class HomePage extends Core implements iPage {
 
 						<label>E-mail</label>
 						<input type="text" name="mail" required id="" value="" placeholder="E-mail" />
-						<input type="text" name="vac_id" hidden id="" value="" placeholder="vac_id" />
+
+						<label></label>
+						<input name="vac_id" type="hidden" id="" value="" placeholder="vac_id" />
 
 						<label></label>
 						<!-- add hidden field for processing -->
@@ -140,7 +143,7 @@ HTML;
 		$gebdatum										= $_POST['gebdatum'];
 		$mail												= $_POST['mail'];
 		$status 										=	"1";
-		$punten											="0";
+		$punten											=	"0";
 		// create insert query with all info above
 		$sql = "INSERT
 					INTO tb_soll

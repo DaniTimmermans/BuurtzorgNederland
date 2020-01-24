@@ -68,9 +68,9 @@
 			//Include some abstract classes, no instance needed
 			require_once(INCLUDES_PATH 		. "secure.inc.php");
 			require_once(INCLUDES_PATH 		. "login.inc.php");
-            require_once(INCLUDES_PATH 		. "database.inc.php");
-            require_once(PAGES_PATH 		. "core.inc.php"); //extends pages
-            require_once(INTERFACES_PATH 	. "ipage.inc.php"); //implements pages
+      require_once(INCLUDES_PATH 		. "database.inc.php");
+      require_once(PAGES_PATH 			. "core.inc.php"); //extends pages
+      require_once(INTERFACES_PATH 	. "ipage.inc.php"); //implements pages
 
 			include_once(INCLUDES_PATH . "content.inc.php");
 			$this->objContent = new Content(); 			// instantiates Content and resurns page content

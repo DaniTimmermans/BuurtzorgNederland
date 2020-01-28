@@ -139,7 +139,7 @@
     //cr[U]d action
 		private function update1() {
 			// present form with all user information editable and process
-			$button = $this->addButton("/../..", "Terug");
+			$button = $this->addButton("/../../../../../..". TEAMLID_PATH , "Terug");
 
       $sql = 'UPDATE tb_soll
   					SET punten = 1, status = 4
@@ -153,7 +153,7 @@
 
     private function update2() {
 			// present form with all user information editable and process
-			$button = $this->addButton("/../..", "Terug");
+			$button = $this->addButton("/../../../../../..". TEAMLID_PATH , "Terug");
 
       $sql = 'UPDATE tb_soll
   					SET punten = 2, status = 4
@@ -167,7 +167,7 @@
 
     private function update3() {
 			// present form with all user information editable and process
-			$button = $this->addButton("/../..", "Terug");
+			$button = $this->addButton("/../../../../../..". TEAMLID_PATH , "Terug");
 
       $sql = 'UPDATE tb_soll
   					SET punten = 3, status = 4
@@ -181,7 +181,7 @@
 
     private function update4() {
 			// present form with all user information editable and process
-			$button = $this->addButton("/../..", "Terug");
+			$button = $this->addButton("/../../../../../..". TEAMLID_PATH , "Terug");
 
       $sql = 'UPDATE tb_soll
   					SET punten = 4, status = 4
@@ -195,7 +195,7 @@
 
     private function update5() {
 			// present form with all user information editable and process
-			$button = $this->addButton("/../..", "Terug");
+			$button = $this->addButton("/../../../../../..". TEAMLID_PATH , "Terug");
 
       $sql = 'UPDATE tb_soll
   					SET punten = 5, status = 4

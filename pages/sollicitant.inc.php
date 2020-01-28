@@ -120,7 +120,7 @@
 		//cr[U]d action
 		private function update() {
 			// present form with all user information editable and process
-			$button = $this->addButton("/../../", "Terug");
+			$button = $this->addButton("/../../../../../..". SOLLICITANT_PATH , "Terug");
 			// first show button, then table
 			$sql = ' UPDATE tb_soll
 									SET status = 2

@@ -140,6 +140,7 @@
 							<label>E-mail</label>
 							<input type="text" name="email" id="" required value="" placeholder="E-mailadres" />
 
+
 							<label></label>
 							<!-- add hidden field for processing -->
 							<input type="hidden" name="frmAddUser" value="frmAddUser" />
@@ -160,12 +161,13 @@ HTML;
 			$password	= password_hash($_POST['password'], PASSWORD_DEFAULT);
 			$role		= $_POST['role'];
 			$email		= $_POST['email'];
+			$status	= 1;
 			// create insert query with all info above
 			$sql = "INSERT
 						INTO tb_users
-							(uuid, username, password, email, role, hash, hash_date)
+							(uuid, username, password, email, role, hash, hash_date, status)
 								VALUES
-									('$uuid', '$username', '$password', '$email', '$role', '$hash', '$hashDate')";
+									('$uuid', '$username', '$password', '$email', '$role', '$hash', '$hashDate', '$status')";
 
 			Database::getData($sql);
 			/*
@@ -177,19 +179,47 @@ HTML;
 			return "Gebruiker is toegevoegd.";
 		} //function
 
+		private function tableBekijk($p_aDbResult){ // create html table from dbase result
+			$image = "<img src='".ICONS_PATH."noun_information user_24px.png' />";
+			$tableBekijk = "<table border='1'>";
+				$tableBekijk .= "<th>uuid</th>
+							<th>inlognaam</th>
+							<th>Wachtwoord</th>
+							<th>E-mailadres</th>
+							<th>Rechten</th>
+							<th>Status</th>
+							<th>Hash</th>
+							<th>Hashdatum</th>
+							<th>Timestamp</th>
+							";
+				// now process every row in the $dbResult array and convert into table
+				foreach ($p_aDbResult as $row){
+					$tableBekijk .= "<tr>";
+						foreach ($row as $col) {
+							$tableBekijk .= "<td>" . $col . "</td>";
+						}
+				} // foreach
+			$tableBekijk .= "</table>";
+			return $tableBekijk;
+		} //function
+
+
+
 		// c[R]ud action
 		private function read() {
-			// get and present information from the user with uuid in PARAM
-			$button = $this->addButton("/../..", "Terug");
-			// first show button, then table
 
-			return $button ."<br>Dit zijn de details van vacature " . PARAM;
-		} // function details
+			$sql = 'SELECT * FROM tb_users WHERE uuid = "' . PARAM .'"';
+				$result = $this->tableBekijk(Database::getData($sql));
+				$button = $this->addButton("/../../../../../..".GEBRUIKERS_PATH, "Terug");	// add "/add" button. This is ACTION button
+
+				return "<br><h1>Dit zijn de details van vacature :". "<br/>" . PARAM."</h1>". $result. $button;
+
+		} // function detail
 
 		//cr[U]d action
 		private function update() {
 			// present form with all user information editable and process
-			$button = $this->addButton("/../", "Terug");
+			$button = $this->addButton("/../../../../../.." .GEBRUIKERS_PATH , "Terug");
 			// first show button, then table
 
 			return $button ."<br>Momenteel wordt " . PARAM . " aangepast";
@@ -200,7 +230,7 @@ HTML;
 			// remove selected record based om uuid in PARAM
 			$sql='DELETE FROM tb_users WHERE uuid="' . PARAM. '"';
             $result = Database::getData($sql);
-			$button = $this->addButton("/../../..", "Terug");	// add "/add" button. This is ACTION button
+			$button = $this->addButton("/../../../../../.." . GEBRUIKERS_PATH , "Terug");	// add "/add" button. This is ACTION button
 			// first show button, then table
 
 			return $button ."<br>Vacature " . PARAM . " is verwijdert";

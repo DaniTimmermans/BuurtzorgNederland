@@ -11,6 +11,7 @@
 	Must contain iPage interface implementation ie getHtml()
 	Called by content.inc.php
 */
+
 class VacaturePage extends Core implements iPage{
 	public function getHtml() {
 		if(defined('ACTION')) {			// process the action obtained is existent
@@ -27,9 +28,10 @@ class VacaturePage extends Core implements iPage{
 		} elseif($_SESSION['user']['role'] == ROLE_WTV) { // no ACTION so normal page
 			$table 	= $this->getData();		// get users from database in tableform
 			$table2 = $this->getDataSoll();
+			$table3 = $this->getDataSollUitnodiging();
 			$button = $this->addButton("/create", "Toevoegen");	// add "/add" button. This is ACTION button
 			// first show button, then table
-			$html = "<h1> Welkom " . $_SESSION['user']['username'] . " </h1>" . "<br/>" . "<br/>" . "<h1>Vacatures</h1>" .  $button . "<br/>" . $table . "<br/>" . "<h1> Goedgekeurde Sollicitanten </h1>" . $table2;
+			$html = "<h1> Welkom " . $_SESSION['user']['username'] . " </h1>" . "<br/>" . "<br/>" . "<h1>Vacatures</h1>" .  $button . "<br/>" . $table . "<br/>" . "<h1> Goedgekeurde Sollicitanten </h1>" . $table2 ."<br/>" . "<h1> Uitgenodigde sollicitanten </h1>" . $table3;
 			return $html;
 		} else {
 			$table 	= $this->getData();		// get users from database in tableform
@@ -37,6 +39,8 @@ class VacaturePage extends Core implements iPage{
 			return $html;
 		}
 	}
+
+
 
 	// show button with the PAGE $p_sAction and the tekst $p_sActionText
 	private function addButton($p_sAction, $p_sActionText) {
@@ -55,6 +59,8 @@ class VacaturePage extends Core implements iPage{
 
 		return $result;
 	} // end function getData()
+
+
 
 	private function createTable($p_aDbResult){ // create html table from dbase result
 		if ($_SESSION['user']['role'] == ROLE_WTV) {
@@ -91,8 +97,9 @@ class VacaturePage extends Core implements iPage{
 							. "/update/" . $row["vac_id"] 	// add ACTION and PARAM to the link
 							. ">$image</a></td>";			// link to delete icon
 				$table .= "</tr>";
-
 			} // foreach
+
+
 		$table .= "</table>";
 		return $table;
 	}else {
@@ -122,7 +129,40 @@ class VacaturePage extends Core implements iPage{
 		$table .= "</table>";
 		return $table;
 	}
-	} //function
+} //vacature tabelfunction
+
+private function tableBekijk($p_aDbResult){ // create html table from dbase result
+	$image = "<img src='".ICONS_PATH."noun_information user_24px.png' />";
+	$tableBekijk = "<table border='1'>";
+		$tableBekijk .= "<th>Vacature id</th>
+					<th>Vacature titel</th>
+					<th>Vacature tekst</th>
+					";
+		// now process every row in the $dbResult array and convert into table
+		foreach ($p_aDbResult as $row){
+			$tableBekijk .= "<tr>";
+				foreach ($row as $col) {
+					$tableBekijk .= "<td>" . $col . "</td>";
+				}
+		} // foreach
+	$tableBekijk .= "</table>";
+	return $tableBekijk;
+} //function
+
+
+
+// c[R]ud action
+private function read() {
+
+	$sql = 'SELECT vac_id, vac_titel, vac_tekst FROM tb_vacature WHERE vac_id = "' . PARAM .'"';
+		$result = $this->tableBekijk(Database::getData($sql));
+		$button = $this->addButton("/../../../../../..".VACATURE_PATH, "Terug");	// add "/add" button. This is ACTION button
+
+		return "<br><h1>Dit zijn de details van vacature :". "<br/>" . PARAM."</h1>". $result. $button;
+
+} // function details
+
+
 
 	private function getDataSoll(){
 		// execute a query and return the result
@@ -131,6 +171,42 @@ class VacaturePage extends Core implements iPage{
 
 		return $result;
 	} // end function getData()
+
+
+	private function createTableSollUitnodiging($p_aDbResult){ // create html table from dbase result
+		$image = "<img src='".ICONS_PATH."noun_information user_24px.png' />";
+		$table3 = "<table border='1'>"; //$table2 laat de door de teamleden gekeurde sollicitanten zien.
+		$table3 .= "<th>Naam ID</th>
+						<th>Naam</th>
+						<th>Adres</th>
+						<th>Geboorte Datum</th>
+						<th>E-mail</th>
+						<th>Punten</th>";
+			// now process every row in the $dbResult array and convert into table
+			foreach ($p_aDbResult as $row){
+				$table3 .= "<tr>";
+					foreach ($row as $col) {
+						$table3 .= "<td>" . $col . "</td>";
+					}
+					// calculate url and trim all parameters [0..9]
+										$url = rtrim($_SERVER['REQUEST_URI'],"/[0..9]");
+					// create new link with parameter (== edit user link!)
+					
+				$table3 .= "</tr>";
+
+			} // foreach
+		$table3 .= "</table>";
+		return $table3;
+	} //function
+
+
+		private function getDataSollUitnodiging(){
+			// execute a query and return the result
+			$sql='SELECT naamid, naam, adres, gebdatum, mail, punten FROM tb_soll WHERE status = 5 ORDER BY punten DESC';
+						$result = $this->createTableSollUitnodiging(Database::getData($sql));
+
+			return $result;
+		}
 
 // hier worden alle goedgekeurde sollicitanten weergegeven die door de teamleden zijn goedgekeurd.
 	private function createTableSoll($p_aDbResult){ // create html table from dbase result
@@ -163,6 +239,8 @@ class VacaturePage extends Core implements iPage{
 		return $table2;
 	} //function
 
+
+
 	// [C]rud action
 	// based on sent form 'frmAddVac' fields
 	private function create() {
@@ -174,7 +252,6 @@ class VacaturePage extends Core implements iPage{
 			return $this->addForm();
 		} //else
 	}
-
 
 // Hier wordt het sollicitatie formulier aangeroepen.
 
@@ -224,14 +301,7 @@ HTML;
 		return $button . "<br>De vacature is toegevoegd.";
 	} //function
 
-	// c[R]ud action
-	private function read() {
-		// get and present information from the user with uuid in PARAM
-		$button = $this->addButton("/../../../", "Terug");
-		// first show button, then table
 
-		return $button ."<br>Dit zijn de details van " . PARAM;
-	} // function details
 
 	//cr[U]d action
 	private function update() {

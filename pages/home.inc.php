@@ -43,18 +43,6 @@ class HomePage extends Core implements iPage {
 		// execute a query and return the result
 		$sql='SELECT vac_id, vac_titel, vac_tekst FROM tb_vacature ORDER BY CAST(vac_id AS int)';
 					$result = $this->createTable(Database::getData($sql));
-
-		//TODO: generate JSON output like this for webservices in future
-		/*
-			$data = Database::getData($sql);
-			$json = Database::jsonParse($data);
-			$array = Database::jsonParse($json);
-
-			echo "<br />result: ";  print_r(Database::getData($sql));
-						echo "<br /><br />json :" . $json;
-						echo "<br /><br />array :"; print_r($array);
-		*/
-
 		return $result;
 	} // end function getData()
 
@@ -92,6 +80,8 @@ class HomePage extends Core implements iPage {
 		$table .= "</table>";
 		return $table;
 	} //function
+
+
 
 	private function create() {
 		// use variabel field  from form for processing -->
@@ -144,6 +134,7 @@ HTML;
 		$mail												= $_POST['mail'];
 		$status 										=	"1";
 		$punten											=	"0";
+
 		// create insert query with all info above
 		$sql = "INSERT
 					INTO tb_soll
@@ -159,11 +150,41 @@ HTML;
 			echo $hashDate . "<br />";
 		*/
 
-		return "<br>De sollicitatie is verstuurd.";
+		$button = $this->addButton("/../../../../../..".HOME_PATH, "Terug");	// add "/add" button. This is ACTION button
+
+		return "<br>De sollicitatie is verstuurd." . $button;
 	} //function
+
+	//Read form
+
+	private function tableBekijk($p_aDbResult){ // create html table from dbase result
+		$image = "<img src='".ICONS_PATH."noun_information user_24px.png' />";
+		$tableBekijk = "<table border='1'>";
+			$tableBekijk .= "<th>Vacature id</th>
+						<th>Vacature titel</th>
+						<th>Vacature tekst</th>
+						";
+			// now process every row in the $dbResult array and convert into table
+			foreach ($p_aDbResult as $row){
+				$tableBekijk .= "<tr>";
+					foreach ($row as $col) {
+						$tableBekijk .= "<td>" . $col . "</td>";
+					}
+			} // foreach
+		$tableBekijk .= "</table>";
+		return $tableBekijk;
+	} //function
+
+
 
 	// c[R]ud action
 	private function read() {
-		return "<br>Dit zijn de details van vacature " . PARAM;
+
+		$sql = 'SELECT vac_id, vac_titel, vac_tekst FROM tb_vacature WHERE vac_id = "' . PARAM .'"';
+			$result = $this->tableBekijk(Database::getData($sql));
+			$button = $this->addButton("/../../../../../..".HOME_PATH, "Terug");	// add "/add" button. This is ACTION button
+
+			return "<br><h1>Dit zijn de details van vacature :". "<br/>" . PARAM."</h1>". $result. $button;
+
 	} // function details
 }// class homePage
